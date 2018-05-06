@@ -1,4 +1,4 @@
-# RAK831-GPS-FORWARDER
+# RAK811-GPS-FORWARDER
 
 You need arm compiler at /usr/bin or change Makefile
 
