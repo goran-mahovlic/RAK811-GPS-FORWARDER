@@ -1,4 +1,3 @@
-
 /**
   ******************************************************************************
   * @file           : main.c
@@ -118,23 +117,26 @@ int main(void)
   //loop while BTN1 PB12 is 0
   while (stateOfPushButton == 0){
     int lenght = 0;
+    unsigned char buff[100];
     //Read BTN1
     stateOfPushButton = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
     //If USB-SERIAL data is ready
     //If GPS data is ready
     if (DataReady3 == 1){
       HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
-      lenght = strlen(rxBuffer3);
+      strcpy(buff, rxBuffer3);
+      lenght = strlen(buff);
       //Transmit data to USB-SERIAL
-      HAL_UART_Transmit_IT(&huart1, rxBuffer3, lenght);
+      HAL_UART_Transmit_IT(&huart1, buff, lenght);
       DataReady3=0;
     }
 
     if (DataReady1 == 1){
       //Toggle LED if data is ready
       HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
-      lenght = strlen(rxBuffer1);
-      HAL_UART_Transmit_IT(&huart3, rxBuffer1, lenght);
+      strcpy(buff, rxBuffer1);
+      lenght = strlen(buff);
+      HAL_UART_Transmit_IT(&huart3, buff, lenght);
       DataReady1=0;
     }
 }

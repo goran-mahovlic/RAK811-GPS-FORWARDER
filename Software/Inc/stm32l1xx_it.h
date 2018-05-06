@@ -64,10 +64,8 @@ void RTC_Alarm_IRQHandler(void);
 
 //This will be deleted by cubeMX
 /* USER CODE BEGIN 0 */
-//char rxBuffer1[100], DataReady1, rxData1[2];
-//char rxIndex1;
-//char rxBuffer3[100], DataReady3, rxData3[2];
-//char rxIndex3;
+unsigned char rxBuffer1[100], rxData1[2], rxBuffer3[100], rxData3[2];
+uint8_t volatile rxIndex1, DataReady1, rxIndex3,DataReady3;
 /* USER CODE END 0 */
 
 #ifdef __cplusplus

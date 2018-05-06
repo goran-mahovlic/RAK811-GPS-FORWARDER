@@ -36,8 +36,8 @@
 #include "stm32l1xx_it.h"
 
 /* USER CODE BEGIN 0 */
-unsigned char rxBuffer1[100], rxData1[2], rxBuffer3[100], rxData3[2];
-uint8_t rxIndex1, DataReady1, rxIndex3,DataReady3;
+//unsigned char rxBuffer1[100], rxData1[2], rxBuffer3[100], rxData3[2];
+//uint8_t rxIndex1, DataReady1, rxIndex3,DataReady3;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -274,25 +274,23 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
   if (huart->Instance == USART1){  //current UART
 
-    if (rxIndex1 == 0) {for (i=0;i<100;i++) rxBuffer1[i] = 0;}   //clear Rx_Buffer$
+    if (rxIndex1 == 0) {for (i=0;i<100;i++) rxBuffer1[i] = 0; DataReady1 = 0;}   //clear Rx_Buffer$
 
     //Need to figure out how to write this, there is no \n\r at the end of the message
     //By datasheet data ends with CRC
     rxBuffer1[0] = rxData1[0];
     DataReady1 = 1;
-
+    rxIndex1 = 0;
     HAL_UART_Receive_IT(&huart1, rxData1, 1);   //activate UART receive interrupt every time
-
   }
 
   else if (huart->Instance == USART3){  //current UART
 
    if (rxIndex3 == 0 || rxIndex3 == 99) {for (i=0;i<100;i++) rxBuffer3[i]=0;}   //clear Rx_Buffer$
 
-   rxBuffer3[rxIndex3]=rxData3[0];    //add data to Rx_Buffer
-   rxIndex3++;
+   rxBuffer3[rxIndex3++]=rxData3[0];    //add data to Rx_Buffer
 
-   if (rxBuffer3[rxIndex3 - 2] == 0x0D && rxBuffer3[rxIndex3 - 1] == 0x0A){ //if received data different from hex 0x0A
+   if (rxBuffer3[rxIndex3 - 2] == 0x0D && rxBuffer3[rxIndex3 - 1] == 0x0A){ //if received data ends with <CR><LF>
       DataReady3 = 1;
       rxIndex3 = 0;
    }
