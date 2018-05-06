@@ -272,13 +272,30 @@ void RTC_Alarm_IRQHandler(void)
 //If we got data on any serial, just toggle data ready 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+  uint8_t i;
+
   if (huart->Instance == USART1){  //current UART
-    HAL_UART_Receive_IT(&huart1, rxData1, 1);   //activate UART receive interrupt every time
+    if (rxIndex1==0) {for (i=0;i<100;i++) rxBuffer1[i]=0;}   //clear Rx_Buffer$
+    //Need to figure out how to write this, there is no \n\r at the end of the message
+    //By datasheet data ends with CRC
+    rxBuffer1[0]=rxData1[0];
     DataReady1=1;
+    HAL_UART_Receive_IT(&huart1, rxData1, 1);   //activate UART receive interrupt every time
   }
-  if (huart->Instance == USART3){  //current UART
+
+  else if (huart->Instance == USART3){  //current UART
+
+    if (rxIndex3==0) {for (i=0;i<100;i++) rxBuffer3[i]=0;}   //clear Rx_Buffer$
+
+    if (rxData3[0]!=0x0a){ //if received data different from hex 0x0A
+      rxBuffer3[rxIndex3++]=rxData3[0];    //add data to Rx_Buffer
+    }
+    else{
+      rxBuffer3[rxIndex3++]=rxData3[0];
+      DataReady3=1;
+      rxIndex3=0;
+    }
     HAL_UART_Receive_IT(&huart3, rxData3, 1);   //activate UART receive interrupt every time
-    DataReady3=1;
   }
 }
 /* USER CODE END 1 */

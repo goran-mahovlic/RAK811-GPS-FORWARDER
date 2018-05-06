@@ -119,20 +119,21 @@ int main(void)
     //If USB-SERIAL data is ready
     if (DataReady1){
       //Toggle LED if data is ready
-      HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
+      //HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
       //Not needed for now
-      lenght = strlen(rxData1);
+      lenght = strlen(rxBuffer1);
       //Transmit data to GPS
-      HAL_UART_Transmit_IT(&huart3, rxData1, 1);
+      HAL_UART_Transmit_IT(&huart3, rxBuffer1, 1);
       DataReady1=0;
     }
     //If GPS data is ready
     if (DataReady3){
-      HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
-      lenght = strlen(rxData3);
+      //HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
+      lenght = strlen(rxBuffer3);
       //Transmit data to USB-SERIAL
-      HAL_UART_Transmit_IT(&huart1, rxData3, 1);
+      HAL_UART_Transmit_IT(&huart1, rxBuffer3, lenght);
       DataReady3=0;
+
     }
 }
 
