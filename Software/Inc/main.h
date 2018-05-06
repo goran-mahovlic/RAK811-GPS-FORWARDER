@@ -113,7 +113,7 @@
 /* USER CODE BEGIN Private defines */
 
 extern unsigned char rxBuffer1[100], rxData1[2], rxBuffer3[100], rxData3[2];
-extern volatile uint8_t rxIndex1, DataReady1, rxIndex3,DataReady3; 
+extern uint8_t rxIndex1, DataReady1, rxIndex3,DataReady3;
 
 /* USER CODE END Private defines */
 

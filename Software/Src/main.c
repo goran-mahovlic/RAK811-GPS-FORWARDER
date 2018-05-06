@@ -113,7 +113,7 @@ int main(void)
 
   //Check Src/stm32l1xx_it.c to see how data is captured
   //Variable to store button status
-  int stateOfPushButton = 0;
+  volatile int stateOfPushButton = 0;
   //loop while BTN1 PB12 is 0
   while (stateOfPushButton == 0){
     int lenght = 0;
