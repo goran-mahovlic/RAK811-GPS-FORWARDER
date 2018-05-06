@@ -118,18 +118,20 @@ int main(void)
     stateOfPushButton = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
     //If USB-SERIAL data is ready
     if (DataReady1){
+      //Toggle LED if data is ready
       HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
-      lenght = strlen(rxBuffer1);
+      //Not needed for now
+      lenght = strlen(rxData1);
       //Transmit data to GPS
-      HAL_UART_Transmit(&huart3, rxBuffer1, lenght, 100);
+      HAL_UART_Transmit_IT(&huart3, rxData1, 1);
       DataReady1=0;
     }
     //If GPS data is ready
     if (DataReady3){
       HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
-      lenght = strlen(rxBuffer3);
+      lenght = strlen(rxData3);
       //Transmit data to USB-SERIAL
-      HAL_UART_Transmit(&huart1, rxBuffer3, lenght, 100);
+      HAL_UART_Transmit_IT(&huart1, rxData3, 1);
       DataReady3=0;
     }
 }
