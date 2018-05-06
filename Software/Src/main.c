@@ -108,6 +108,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_UART_Receive_IT(&huart1, rxData1, 1);
   HAL_UART_Receive_IT(&huart3, rxData3, 1);
+
+  //Power on GPS
+//  HAL_GPIO_WritePin(GPS_POWER_ON_PIN_Pin, GPS_POWER_ON_PIN_GPIO_Port, GPIO_PIN_RESET);
+
   //Check Src/stm32l1xx_it.c to see how data is captured
   //Variable to store button status
   int stateOfPushButton = 0;
@@ -117,23 +121,21 @@ int main(void)
     //Read BTN1
     stateOfPushButton = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
     //If USB-SERIAL data is ready
-    if (DataReady1){
-      //Toggle LED if data is ready
-      //HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
-      //Not needed for now
-      lenght = strlen(rxBuffer1);
-      //Transmit data to GPS
-      HAL_UART_Transmit_IT(&huart3, rxBuffer1, 1);
-      DataReady1=0;
-    }
     //If GPS data is ready
-    if (DataReady3){
-      //HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
+    if (DataReady3 == 1){
+      HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
       lenght = strlen(rxBuffer3);
       //Transmit data to USB-SERIAL
       HAL_UART_Transmit_IT(&huart1, rxBuffer3, lenght);
       DataReady3=0;
+    }
 
+    if (DataReady1 == 1){
+      //Toggle LED if data is ready
+      HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
+      lenght = strlen(rxBuffer1);
+      HAL_UART_Transmit_IT(&huart3, rxBuffer1, lenght);
+      DataReady1=0;
     }
 }
 

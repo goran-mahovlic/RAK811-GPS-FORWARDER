@@ -43,7 +43,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l1xx_hal.h"
-
+#include <stdint.h>
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -111,10 +111,10 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
-extern char rxBuffer1[100], DataReady1, rxData1[2];
-extern char rxIndex1;
-extern char rxBuffer3[100], DataReady3, rxData3[2];
-extern char rxIndex3;
+
+extern unsigned char rxBuffer1[100], rxData1[2], rxBuffer3[100], rxData3[2];
+extern uint8_t rxIndex1, DataReady1, rxIndex3,DataReady3;
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
